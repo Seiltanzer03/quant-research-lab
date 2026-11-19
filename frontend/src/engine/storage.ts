@@ -30,7 +30,7 @@ export async function saveSource(source: StoredDataset) {
 }
 export async function saveRun(source: StoredDataset, report: Dashboard, settings: Settings) {
   const db = await database();
-  const id = report.datasets[0].dataset_hash + '/' + JSON.stringify(settings);
+  const id = report.datasets[0].dataset_hash + '/' + report.schema_version + '/' + report.git_sha + '/' + JSON.stringify(settings);
   const existing = await db.get('experiments', id) as SavedRun | undefined;
   const run = existing ?? { id, source_id: source.id, generated_at_utc: report.generated_at_utc, settings: { ...settings }, report };
   const transaction = db.transaction(['reports', 'experiments'], 'readwrite');

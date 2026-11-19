@@ -4,6 +4,7 @@ import { DEFAULT_SETTINGS } from './contracts';
 import type { PaperForecast, Progress, ScenarioInput, ScenarioResult, Settings, SourceProfile, StoredDataset } from './contracts';
 import { hash, normalizeBars, parseCSV } from './data';
 import { downloadSource } from './provider';
+import { loadReference, loadPreparedReport } from './archive';
 import { evaluatePaper } from './research';
 import { appendOutcome, appendPaper, backupWorkspace, loadWorkspace, restoreWorkspace, saveRawImport, saveRun, saveSource } from './storage';
 import type { SavedRun } from './storage';
@@ -96,9 +97,24 @@ export function useLab() {
       const controller = new AbortController(); abortRef.current = controller;
       const cached = sources.find(s => s.profile.instrument_id === instrument && s.profile.source === 'dukascopy_public');
       const downloaded = await downloadSource(instrument, from, to, cached, controller.signal, setProgress);
+      if (controller.signal.aborted) throw new Error('Загрузка отменена');
       const merged = await saveSource(downloaded);
       setSources(old => [...old.filter(s => s.id !== merged.id), merged]); setActiveId(merged.id);
       return calculate(merged, from, to);
+    });
+  }
+  function reference(instrument: 'XAUUSD' | 'NAS100') {
+    return guarded(async () => {
+      const controller = new AbortController(); abortRef.current = controller;
+      const downloaded = await loadReference(instrument, controller.signal, setProgress);
+      if (controller.signal.aborted) throw new Error('Загрузка отменена');
+      const source = await saveSource(downloaded);
+      setSources(old => [...old.filter(s => s.id !== source.id), source]); setActiveId(source.id);
+      const prepared = JSON.stringify(settings) === JSON.stringify(DEFAULT_SETTINGS) ? await loadPreparedReport(instrument, source, controller.signal) : null;
+      if (!prepared) return calculate(source);
+      await saveRun(source, prepared, settings); await reload();
+      setNotice(`Готово: ${source.bars.length.toLocaleString('ru-RU')} реальных M5-свечей за 2024–2025. Можно менять параметры и запускать свои расчёты.`);
+      return prepared;
     });
   }
   function run(from: string, to: string) {
@@ -123,7 +139,7 @@ export function useLab() {
     });
   }
   async function scenario(input: ScenarioInput): Promise<ScenarioResult | undefined> {
-    if (!source) { setError('Сначала загрузи M1-историю'); return undefined; }
+    if (!source) { setError('Сначала открой готовую историю или импортируй свечи'); return undefined; }
     return guarded(() => worker<ScenarioResult>('scenario', source, input));
   }
   async function issue(minutes: number) {
@@ -138,6 +154,6 @@ export function useLab() {
   async function restore(file: File) {
     return guarded(async () => { await restoreWorkspace(await file.text()); await reload(); setNotice('Резервная копия восстановлена. Существующие прогнозы не перезаписаны.'); });
   }
-  return { sources, source, reports, report, experiments, paper, settings, setSettings, activeId, setActiveId, ready, busy, progress, error, setError, notice, connect, run, importCSV, scenario, issue, restore, cancel, backup: backupWorkspace };
+  return { sources, source, reports, report, experiments, paper, settings, setSettings, activeId, setActiveId, ready, busy, progress, error, setError, notice, connect, reference, run, importCSV, scenario, issue, restore, cancel, backup: backupWorkspace };
 }
 export type Lab = ReturnType<typeof useLab>;

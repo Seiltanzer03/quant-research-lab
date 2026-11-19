@@ -1,20 +1,22 @@
-# Приёмка v0.2 · 19.11.2026
+# Приёмка v0.3 · 19.11.2026
 
 | Возможность | Реальное состояние |
 |---|---|
-| Полный CSV import на Pages | Raw/normalize/QA/Worker research/IndexedDB; без Python и коммитов |
-| B0/B1 M15/H1/H4 в браузере | Реализованы, нет синтетического fallback |
-| Даты/параметры/запуск/отмена | Реальные операции; завершённые experiments сохраняются |
-| Диапазоны/coverage/score/paired bootstrap | Реализованы; source/params/snapshot закреплены |
-| TP/SL scenario | M1 replay с costs, time exit, ambiguity bounds и day-block CI |
-| Личный forward-журнал | Freshness/gaps/late gates; часы браузера не являются независимой публикацией |
-| Backup/restore | IndexedDB backup; прогнозы не заменяются |
-| Автозагрузка Dukascopy | Прямой коннектор; серверные проверки дали HTTP429. В опубликованном приложении также получена ошибка источника; реальное онлайн-подключение не подтверждено |
-| Недельные часы Dukascopy | Из официального календаря, праздники отдельно |
-| Демо/Modules/Session-заглушки | Удалены из интерфейса |
-| 24/7 без вкладки/VPS | Нет; постоянный серверный feed не заявлен |
-| Trading expectancy / audited validation | Не доказаны; статусы не присваиваются |
+| Открыть сайт без ключей/регистрации/CSV | Автоматический настоящий reference-архив золота 2024–2025; Nasdaq — один выбор рынка |
+| История | XAUUSD 142099 и Nasdaq EVTL:NQ 136720 исходных M5 Bid; SHA-256 каждого исходного файла |
+| M15/H1/H4 | Полные наблюдаемые окна; без интерполяции и M5→M1 выдумывания |
+| Первичный отчёт | Считается на настоящем архиве при сборке; checksum/hash проверяется браузером |
+| Новый период/параметры | Настоящий пересчёт в Worker и отдельный experiment |
+| TP/SL | Реальный M5 replay, ambiguity, costs, time exit, R bounds/CI; исходное разрешение подписано |
+| CSV/backup/restore | Полный browser workflow, личные данные не публикуются |
+| Online Dukascopy | Серверные проверки дали HTTP429, браузер — ошибку. Успех live-feed не заявлен |
+| OANDA/ввод ключей | Не подключается; полей/кода для токенов нет |
+| Forward paper | Реализованы gates, но reference M5/старый архив не удовлетворяют требованиям свежей M1 |
+| Непрерывный поиск новых моделей / 24/7 | Не реализованы |
+| Прибыльность торговых правил | Не доказана; статусы допуска не присваиваются |
 
-Тесты нового ядра: JSONP parsing без eval; exact symbols/no aliases; UTC/DST; partial bars; conflicting duplicates; reference aggregation; gaps; no future leakage; whole-candle coverage; paired timestamps; explicit-lead future issuance; stale/gapped rejection; append-only paper; source append без truncation; repeat-run immutability; same-M1 ambiguity; cost/time exit; short-page pagination; no fallback после HTTP429.
+Локально: 25 Python + 20 frontend tests. Build действительно пересчитал обе настоящие истории. B0 test N по M15/H1/H4: XAUUSD 9370/2263/513; NAS100 9023/2152/509. Фактическое joint coverage 90%: XAUUSD 88.34/86.26/86.35%; NAS100 89.90/88.10/95.87%. В частности, целевые 90% не «дорисованы»: калибровка показывает отклонения.
 
-Build and Pages и Checks для a98286f838ef252b9cc269b24668b7bf850499b9 завершились успешно. Локально: 25 Python + 19 frontend tests, production build. Импорт личного архива GC_F/NQ_F H1 проверяется отдельно на опубликованном сайте. Source connectivity сохраняет фактический отказ поставщика.
+Протокол v3/schema2.1, исходный timeframe M5. Тесты покрывают отсутствие future leakage, совместное Low/High попадание, paired timestamps, DST/gaps/partial/conflicts, фактическое M5-разрешение сценария, append-only paper и сохранение старых simulation timestamps. Сборка проверяет SHA/число строк всех четырёх файлов.
+
+Проверка опубликованного кабинета и GitHub Actions фиксируется после развёртывания этой версии.

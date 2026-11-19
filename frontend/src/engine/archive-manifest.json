@@ -1,0 +1,38 @@
+{
+  "XAUUSD": [
+    {
+      "file": "XAUUSD_M5_2024.bin",
+      "original_name": "XAUUSD/M5/2024.json.gz",
+      "sha256": "a9aabc23de27800730b7be8192d2761f74fc32b928397aef3f7e778f73151d99",
+      "rows": 71193,
+      "first_utc": "2024-01-01T23:00:00+00:00",
+      "last_utc": "2024-12-31T21:55:00+00:00"
+    },
+    {
+      "file": "XAUUSD_M5_2025.bin",
+      "original_name": "XAUUSD/M5/2025.json.gz",
+      "sha256": "2540ac7f782ca41372854712efbd3a2bee2b455a3d76f90078773211502cb817",
+      "rows": 70906,
+      "first_utc": "2025-01-01T23:00:00+00:00",
+      "last_utc": "2025-12-31T21:55:00+00:00"
+    }
+  ],
+  "NAS100": [
+    {
+      "file": "NQ_M5_2024.bin",
+      "original_name": "NQ/M5/2024.json.gz",
+      "sha256": "a7637e332bfa6b49ced07b496795c67a53b91e0f9698b3b59696f672d1870093",
+      "rows": 68553,
+      "first_utc": "2024-01-01T23:00:00+00:00",
+      "last_utc": "2024-12-31T21:10:00+00:00"
+    },
+    {
+      "file": "NQ_M5_2025.bin",
+      "original_name": "NQ/M5/2025.json.gz",
+      "sha256": "adc4027a5ea029e79b473b2494a75bffc1b05e3bc77437278562f1382417e152",
+      "rows": 68167,
+      "first_utc": "2025-01-01T23:00:00+00:00",
+      "last_utc": "2025-12-31T21:10:00+00:00"
+    }
+  ]
+}

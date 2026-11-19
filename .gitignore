@@ -12,6 +12,7 @@ state-store/
 node_modules/
 dist/
 frontend/public/data/dashboard.json
+frontend/public/quotes/ready-*.json
 playwright-report/
 test-results/
 *.log

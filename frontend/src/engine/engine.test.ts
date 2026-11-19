@@ -126,13 +126,21 @@ describe('Scenario replay', () => {
     expect(observedTouch(bars, 'long', 110, 90).first).toBe('AMBIGUOUS');
     expect(observedTouch(bars, 'short', 90, 110).first).toBe('AMBIGUOUS');
   });
+  it('replays actual M5 resolution without inventing M1 paths', () => {
+    const source = fixture();
+    const m5 = { ...source, profile: { ...source.profile, timeframe_minutes: 5 as const }, bars: aggregateBars(source.bars, source.profile, 5).bars };
+    const result = evaluateScenario(m5, { direction: 'long', entry: 100, tp: 100.05, sl: 99.95, cost_points: .005, minutes: 15, volatility_scaled: true }, DEFAULT_SETTINGS);
+    expect(result.data_resolution_minutes).toBe(5);
+    expect(result.tp_first + result.sl_first + result.neither + result.ambiguous).toBeCloseTo(1);
+    expect(result.mean_r_lower).toBeLessThanOrEqual(result.mean_r_upper);
+  });
   it('includes time exit, costs and pessimistic/optimistic ambiguity bounds', () => {
     const source = fixture();
     const result = evaluateScenario(source, { direction: 'long', entry: 100, tp: 100.05, sl: 99.95, cost_points: .005, minutes: 15, volatility_scaled: true }, DEFAULT_SETTINGS);
     expect(result.tp_first + result.sl_first + result.neither + result.ambiguous).toBeCloseTo(1);
     expect(result.mean_r_lower).toBeLessThanOrEqual(result.mean_r_upper);
     expect(result.mode).toBe('historical_replay');
-    expect(() => evaluateScenario({ ...source, profile: { ...profile, timeframe_minutes: 15 } }, result.input, DEFAULT_SETTINGS)).toThrow('M1');
+    expect(() => evaluateScenario({ ...source, profile: { ...profile, timeframe_minutes: 60 } }, result.input, DEFAULT_SETTINGS)).toThrow('Разрешение');
   });
 });
 

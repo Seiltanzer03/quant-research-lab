@@ -15,13 +15,14 @@ export function observedTouch(bars: RawBar[], direction: 'long' | 'short', tp: n
 
 export function evaluateScenario(source: StoredDataset, input: ScenarioInput, settings: Settings): ScenarioResult {
   validateSettings(settings);
-  if (source.profile.timeframe_minutes !== 1) throw new Error('Для порядка TP/SL нужна M1-история. Импорт M15/H1 сохраняет диапазоны, но не определяет порядок касаний.');
+  if (source.profile.timeframe_minutes > input.minutes) throw new Error('Разрешение истории крупнее горизонта. Для подробного порядка TP/SL лучше M1; текущая история не дробится на вымышленные свечи.');
   const { direction, entry, tp, sl, cost_points, minutes } = input;
   if (![15, 60, 240].includes(minutes)) throw new Error('Выбери M15, H1 или H4');
   if (![entry, tp, sl, cost_points].every(Number.isFinite) || Math.min(entry, tp, sl) <= 0 || cost_points < 0 || (direction === 'long' ? !(sl < entry && entry < tp) : !(tp < entry && entry < sl))) throw new Error('Проверь порядок Entry, TP, SL и издержки');
   const samples = makeSamples(source, minutes).slice(-settings.lookback);
   if (samples.length < settings.min_train) throw new Error(`Для сценария нужно минимум ${settings.min_train} полных исторических окон`);
-  const recentScale = knownVolatility(source.bars, 60).at(-1)! * Math.sqrt(minutes);
+  const recentScale = knownVolatility(source.bars, source.profile.timeframe_minutes * 60).at(-1)! * Math.sqrt(minutes / source.profile.timeframe_minutes);
+  if (input.volatility_scaled && !(recentScale > 0)) throw new Error('Недостаточно изменений цены для масштабирования по волатильности');
   const risk = Math.abs(entry - sl), reward = Math.abs(tp - entry), rr = reward / risk, costR = cost_points / risk;
   let takeFirst = 0, stopFirst = 0, neither = 0, ambiguous = 0, takeTouch = 0, stopTouch = 0, lowerR = 0, upperR = 0;
   const points: { time: number; value: number }[] = [];
@@ -39,5 +40,5 @@ export function evaluateScenario(source: StoredDataset, input: ScenarioInput, se
     lowerR += low; upperR += high; points.push({ time: sample.time, value: low });
   }
   const bootstrap = bootstrapDaily(points, settings.bootstrap_repetitions);
-  return { sample_n: samples.length, days: bootstrap.days, tp_first: takeFirst / samples.length, sl_first: stopFirst / samples.length, neither: neither / samples.length, ambiguous: ambiguous / samples.length, tp_touch: takeTouch / samples.length, sl_touch: stopTouch / samples.length, rr, mean_r_lower: lowerR / samples.length, mean_r_upper: upperR / samples.length, mean_r_ci95: bootstrap.ci95, ambiguous_fraction: ambiguous / samples.length, sample_from_utc: iso(samples[0].time), sample_to_utc: iso(samples.at(-1)!.end), source_symbol: source.profile.source_symbol, input, mode: 'historical_replay', warning: 'Это частоты и результат исторических сценариев, не проверенные вероятности будущей сделки. Entry считается начальной ценой уже открытой позиции; отложенный вход не моделируется. Издержки заданы пользователем; gap/slippage исполнения за пределами этих предположений не воспроизводятся.' };
+  return { sample_n: samples.length, days: bootstrap.days, tp_first: takeFirst / samples.length, sl_first: stopFirst / samples.length, neither: neither / samples.length, ambiguous: ambiguous / samples.length, tp_touch: takeTouch / samples.length, sl_touch: stopTouch / samples.length, rr, mean_r_lower: lowerR / samples.length, mean_r_upper: upperR / samples.length, mean_r_ci95: bootstrap.ci95, ambiguous_fraction: ambiguous / samples.length, sample_from_utc: iso(samples[0].time), sample_to_utc: iso(samples.at(-1)!.end), source_symbol: source.profile.source_symbol, input, data_resolution_minutes: source.profile.timeframe_minutes, mode: 'historical_replay', warning: `Исторический replay по M${source.profile.timeframe_minutes}. Совместные касания внутри одной исходной свечи имеют неизвестный порядок. Частоты не являются проверенными вероятностями будущей сделки. Entry — начальная цена уже открытой позиции; отложенный вход не моделируется. Издержки заданы пользователем; реальное исполнение, funding и slippage отдельно не воспроизводятся.` };
 }

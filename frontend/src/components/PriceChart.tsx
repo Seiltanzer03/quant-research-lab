@@ -33,7 +33,6 @@ export function PriceChart({ bars, forecast, showOutcome, digits }: { bars: Bar[
       const anchor = chart.addSeries(LineSeries, { color: '#d8b779', lineWidth: 1, lineStyle: LineStyle.Dotted, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false });
       anchor.setData([{ time: start as UTCTimestamp, value: forecast.anchor_price }, { time: end as UTCTimestamp, value: forecast.anchor_price }]);
     }
-    if (forecast && start && visible.length) chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, visible.length - 65), to: visible.length + 5 });
     chart.timeScale().fitContent();
     return () => chart.remove();
   }, [bars, forecast, showOutcome, digits]);
