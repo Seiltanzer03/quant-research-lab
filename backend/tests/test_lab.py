@@ -212,6 +212,7 @@ def test_model_version_reproducible(tmp_path, sample):
     second = run_research(store, bars, profile, 15, "fixed-snapshot")
     assert first["run_id"] == second["run_id"]
     assert first["models"] == second["models"]
+    assert first["history"] == second["history"]
     assert first["history"][-1]["issued_at_utc"] == second["history"][-1]["issued_at_utc"]
     assert all(not f["eligible_for_forward_validation"] for f in second["history"])
     assert first["live_forecast"] is None

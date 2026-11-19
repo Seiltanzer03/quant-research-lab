@@ -11,7 +11,7 @@
 | Два baseline / историческая оценка | Реализованы; только историческая симуляция, DEMO по умолчанию |
 | Joint coverage / score / paired bootstrap | Реализованы; экономический edge не заявлен |
 | UI исследования / журнал / данные | Реализованы; CSV preview локален браузеру, полное сохранение — CLI/API |
-| GitHub Actions / Pages | Workflow и persistence подготовлены; удалённый запуск должен быть подтверждён зелёным workflow |
+| GitHub Actions / Pages | Первый удалённый запуск Checks и Research and Pages завершён успешно; публичный сайт открывается, lab-state создан |
 | Безопасность raw/журналов | Версии Parquet + raw hash, SQLite UPDATE/DELETE triggers; администратор файла технически может обойти |
 | Настоящие заранее опубликованные прогнозы | 0, отсутствуют |
 | Pine exporter | Подготовлен; компиляция/доставка в TradingView не проверены |
@@ -25,4 +25,4 @@
 
 Webhook acceptance (100 доставок), настоящий forward, график live-качества и broker execution не проходят приёмку в этой версии: соответствующих модулей ещё нет.
 
-Локальные результаты исходной проверки: **25 Python tests passed**, **3 frontend tests passed**, `ruff check` и TypeScript/Vite build прошли. Актуальные результаты смотри в CI соответствующего commit; этот текст не заменяет удалённый зелёный запуск.
+Результаты исходной проверки: **25 Python tests passed**, **3 frontend tests passed**, `ruff check` и TypeScript/Vite build прошли локально и на GitHub. Публичный UI проверен в браузере: выбор XAUUSD/NAS100, переключение M15/H1, таблица B0/B1, журнал 120 симуляций, режим Сейчас с NO FORECAST. Актуальные результаты смотри в CI соответствующего commit.

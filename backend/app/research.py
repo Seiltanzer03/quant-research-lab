@@ -346,7 +346,6 @@ def run_research(store: Store, bars: pd.DataFrame, profile: Profile, minutes: in
         "mode": "historical_simulation",
     }
     experiment = store.append("experiments", run_id, experiment)
-    outcome_map = {o["forecast_id"]: o for o in outcomes}
     # Return original persisted issue timestamps, never fresh replacements on replay.
     with store.connect() as db:
         import json
@@ -357,8 +356,15 @@ def run_research(store: Store, bars: pd.DataFrame, profile: Profile, minutes: in
                 "SELECT id,payload FROM forecasts WHERE json_extract(payload,'$.run_id')=?", [run_id]
             ).fetchall()
         }
+        persisted_outcomes = {
+            r[0]: json.loads(r[1])
+            for r in db.execute(
+                "SELECT outcomes.id,outcomes.payload FROM outcomes JOIN forecasts ON outcomes.id=forecasts.id WHERE json_extract(forecasts.payload,'$.run_id')=?",
+                [run_id],
+            ).fetchall()
+        }
     recent = [
-        {**persisted[f["forecast_id"]], "outcome": outcome_map[f["forecast_id"]]}
+        {**persisted[f["forecast_id"]], "outcome": persisted_outcomes[f["forecast_id"]]}
         for f in forecasts
         if f["model_version"] == MODELS[0]
     ][-120:]
