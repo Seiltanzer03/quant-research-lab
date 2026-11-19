@@ -2,7 +2,7 @@ import Papa from 'papaparse';
 
 export const pct = (value: number | null | undefined, digits = 1) => value == null ? '—' : `${(value * 100).toFixed(digits)}%`;
 export const number = (value: number | null | undefined, digits = 2) => value == null ? '—' : value.toLocaleString('ru-RU', { minimumFractionDigits: digits, maximumFractionDigits: digits });
-export const stamp = (value?: string, zone = 'Europe/Moscow') => value ? new Intl.DateTimeFormat('ru-RU', { timeZone: zone, day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }).format(new Date(value)) : '—';
+export const stamp = (value?: string, zone = 'Europe/Moscow') => value ? new Intl.DateTimeFormat('ru-RU', { timeZone: zone, year: 'numeric', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }).format(new Date(value)) : '—';
 
 export function riskReward(direction: string, entry: number, tp: number, sl: number): number | null {
   if (![entry, tp, sl].every(v => Number.isFinite(v) && v > 0)) return null;
