@@ -1,0 +1,42 @@
+{
+  "instrument_id": "NAS100",
+  "source": "demo_generator_v1",
+  "source_symbol": "DEMO:NAS100",
+  "asset_class": "synthetic",
+  "timeframe_minutes": 1,
+  "timestamp_timezone": "UTC",
+  "timestamp_unit": "s",
+  "standard_ohlc": true,
+  "quote_currency": "USD",
+  "price_precision": 2,
+  "tick_size": 0.01,
+  "available_volume_type": "synthetic",
+  "execution_instrument_id": null,
+  "roll_policy": null,
+  "data_license": "Synthetic fixture / CC0",
+  "publish_allowed": true,
+  "is_demo": true,
+  "calendar": {
+    "timezone": "UTC",
+    "verified": true,
+    "sessions": [
+      {
+        "weekdays": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "open_minute": 0,
+        "close_minute": 1440
+      }
+    ],
+    "closed_dates": [],
+    "overrides": {}
+  },
+  "columns": {},
+  "max_staleness_minutes": 5
+}
