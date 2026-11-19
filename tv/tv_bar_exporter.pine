@@ -1,0 +1,15 @@
+//@version=6
+indicator("Quant Lab · closed M1 exporter", overlay = true)
+
+if not chart.is_standard or timeframe.period != "1"
+    runtime.error("Use standard time-based 1-minute candles only")
+
+jsonNumber(float value) => na(value) ? "null" : str.tostring(value)
+jsonPrice(float value) => na(value) ? "null" : str.tostring(value, format.mintick)
+jsonEscape(string value) => str.replace_all(str.replace_all(value, "\\", "\\\\"), "\"", "\\\"")
+
+if barstate.isrealtime and barstate.isconfirmed
+    string payload = "{\"schema_version\":\"1.0\",\"event_type\":\"bar_closed\",\"source\":\"tradingview\",\"symbol\":\"" + jsonEscape(syminfo.tickerid) + "\",\"interval\":\"" + timeframe.period + "\",\"bar_open_ms\":" + str.tostring(time) + ",\"bar_close_ms\":" + str.tostring(time_close) + ",\"open\":" + jsonPrice(open) + ",\"high\":" + jsonPrice(high) + ",\"low\":" + jsonPrice(low) + ",\"close\":" + jsonPrice(close) + ",\"volume\":" + jsonNumber(volume) + "}"
+    alert(payload, alert.freq_once_per_bar_close)
+
+plot(na, title = "Exporter only", display = display.none)

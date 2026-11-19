@@ -1,0 +1,11 @@
+pyproject.toml
+backend/__init__.py
+backend/app/__init__.py
+backend/app/contracts.py
+backend/app/ingestion.py
+backend/app/store.py
+quant_research_lab.egg-info/PKG-INFO
+quant_research_lab.egg-info/SOURCES.txt
+quant_research_lab.egg-info/dependency_links.txt
+quant_research_lab.egg-info/requires.txt
+quant_research_lab.egg-info/top_level.txt
