@@ -105,8 +105,8 @@ export function quality(source: StoredDataset, now = Date.now() / 1000) {
     else { missing++; if (examples.length < 20) examples.push(new Date(t * 1000).toISOString()); }
   }
   const age = Math.max(0, (now - end - profile.timeframe_minutes * 60) / 60);
-  const flags = [...(!profile.calendar.verified ? ['CALENDAR_UNVERIFIED'] : []), ...(missing ? ['MISSING_BARS'] : []), ...(off ? ['OUTSIDE_SESSION'] : []), ...(age > 5 ? ['DATA_STALE'] : []), ...(source.errors.length ? ['SOURCE_ERRORS'] : [])];
-  return { status: flags[0] ?? 'REAL_DATA', flags, rows: bars.length, coverage: expected ? found / expected : null, missing_bars: missing, missing_examples: examples, off_session_bars: off, first_bar_utc: new Date(start * 1000).toISOString(), last_bar_close_utc: new Date((end + profile.timeframe_minutes * 60) * 1000).toISOString(), age_minutes: age, history_completeness: 'OBSERVED_SPAN_ONLY', expected_bars: expected };
+  const flags = [...(!profile.calendar.verified ? ['CALENDAR_UNVERIFIED'] : []), ...(missing && profile.calendar.verified ? ['MISSING_BARS'] : []), ...(off ? ['OUTSIDE_SESSION'] : []), ...(age > 5 ? ['DATA_STALE'] : []), ...(source.errors.length ? ['SOURCE_ERRORS'] : [])];
+  return { status: flags[0] ?? 'REAL_DATA', flags, rows: bars.length, coverage: profile.calendar.verified && expected ? found / expected : null, missing_bars: missing, missing_examples: examples, off_session_bars: off, first_bar_utc: new Date(start * 1000).toISOString(), last_bar_close_utc: new Date((end + profile.timeframe_minutes * 60) * 1000).toISOString(), age_minutes: age, history_completeness: 'OBSERVED_SPAN_ONLY', expected_bars: expected };
 }
 
 export function aggregateBars(bars: RawBar[], profile: SourceProfile, minutes: number) {

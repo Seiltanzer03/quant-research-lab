@@ -12,6 +12,7 @@ export function ScenarioWorkspace({ lab, minutes, zone }: { lab: Lab; minutes: n
   const [scaled, setScaled] = useState(true);
   const [result, setResult] = useState<ScenarioResult>();
   useEffect(() => { if (anchor) { setEntry(String(anchor)); setTp(String(Math.round(anchor * 1.005 * 1000) / 1000)); setSl(String(Math.round(anchor * .9975 * 1000) / 1000)); setResult(undefined); } }, [anchor, lab.source?.id]);
+  useEffect(() => { setResult(undefined); }, [minutes, lab.settings]);
   const rr = riskReward(direction, Number(entry), Number(tp), Number(sl));
   async function run() { const value = await lab.scenario({ direction, entry: Number(entry), tp: Number(tp), sl: Number(sl), cost_points: Number(cost), minutes, volatility_scaled: scaled }); if (value) setResult(value); }
   if (!lab.source) return <Empty>Для сценария сначала подключи или импортируй M1-историю в разделе «Данные».</Empty>;

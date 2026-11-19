@@ -1,4 +1,4 @@
-export type Instrument = 'XAUUSD' | 'NAS100' | 'SPX500' | 'XAGUSD';
+export type Instrument = 'XAUUSD' | 'NAS100' | 'SPX500' | 'XAGUSD' | 'GC_F' | 'NQ_F';
 export type RawBar = { time: number; open: number; high: number; low: number; close: number; volume: number | null };
 export type Session = { weekdays: number[]; open_minute: number; close_minute: number };
 export type SourceProfile = {
