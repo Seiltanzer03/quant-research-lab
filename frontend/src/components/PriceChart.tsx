@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { CandlestickSeries, ColorType, createChart, LineSeries, LineStyle } from 'lightweight-charts';
 import type { UTCTimestamp } from 'lightweight-charts';
-import type { Bar, Forecast } from '../types';
+import type { Bar, Bounds } from '../types';
 
-export function PriceChart({ bars, forecast, showOutcome, digits }: { bars: Bar[]; forecast?: Forecast; showOutcome: boolean; digits: number }) {
+type ChartForecast = { horizon_start_utc: string; horizon_end_utc: string; anchor_price: number; forecast_quantiles: Record<string, Bounds>; mode?: string };
+export function PriceChart({ bars, forecast, showOutcome, digits }: { bars: Bar[]; forecast?: ChartForecast; showOutcome: boolean; digits: number }) {
   const container = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!container.current || !bars.length) return;
@@ -32,8 +33,9 @@ export function PriceChart({ bars, forecast, showOutcome, digits }: { bars: Bar[
       const anchor = chart.addSeries(LineSeries, { color: '#d8b779', lineWidth: 1, lineStyle: LineStyle.Dotted, priceLineVisible: false, lastValueVisible: false, crosshairMarkerVisible: false });
       anchor.setData([{ time: start as UTCTimestamp, value: forecast.anchor_price }, { time: end as UTCTimestamp, value: forecast.anchor_price }]);
     }
+    if (forecast && start && visible.length) chart.timeScale().setVisibleLogicalRange({ from: Math.max(0, visible.length - 65), to: visible.length + 5 });
     chart.timeScale().fitContent();
     return () => chart.remove();
   }, [bars, forecast, showOutcome, digits]);
-  return <div className="chart-wrap"><div ref={container} className="price-chart" /><div className="chart-label">{forecast ? 'HISTORICAL SIMULATION' : 'ИСТОРИЯ КОТИРОВОК'} · UTC</div>{!bars.length && <div className="chart-empty">Недостаточно полных свечей</div>}</div>;
+  return <div className="chart-wrap"><div ref={container} className="price-chart" /><div className="chart-label">{forecast ? forecast.mode === 'forward_paper' ? 'FORWARD PAPER · ЛИЧНЫЙ ЖУРНАЛ' : 'HISTORICAL SIMULATION' : 'РЕАЛЬНЫЕ КОТИРОВКИ'} · UTC</div>{!bars.length && <div className="chart-empty">Недостаточно полных свечей</div>}</div>;
 }

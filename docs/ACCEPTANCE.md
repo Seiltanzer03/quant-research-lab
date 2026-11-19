@@ -1,28 +1,20 @@
-# Приёмка v0.1 — 19.11.2026
+# Приёмка v0.2 · 19.11.2026
 
-Это GitHub-first адаптация первых этапов исходного ТЗ, не реализация всех 18 разделов. Готовый запуск не означает подтверждённую рыночную модель.
-
-| Часть | Реальное состояние |
+| Возможность | Реальное состояние |
 |---|---|
-| Основа Python / React / OpenAPI | Реализована, локальный health endpoint и UI production build проверены |
-| Импорт CSV / raw / UTC / дедупликация | Реализованы, покрыты автоматическими тестами |
-| Календари / DST | Настраиваемые weekly sessions, holiday closures и overrides; автоматической сверки брокера нет |
-| OHLC агрегация | M15/H1/H4, полные UTC-окна, проверка по независимому ручному reference |
-| Два baseline / историческая оценка | Реализованы; только историческая симуляция, DEMO по умолчанию |
-| Joint coverage / score / paired bootstrap | Реализованы; экономический edge не заявлен |
-| UI исследования / журнал / данные | Реализованы; CSV preview локален браузеру, полное сохранение — CLI/API |
-| GitHub Actions / Pages | Первый удалённый запуск Checks и Research and Pages завершён успешно; публичный сайт открывается, lab-state создан |
-| Безопасность raw/журналов | Версии Parquet + raw hash, SQLite UPDATE/DELETE triggers; администратор файла технически может обойти |
-| Настоящие заранее опубликованные прогнозы | 0, отсутствуют |
-| Pine exporter | Подготовлен; компиляция/доставка в TradingView не проверены |
-| Webhook / VPS / live forecast | Не реализованы |
-| HAR, LightGBM, PIT, direction/touch probabilities | Не реализованы |
-| D1/Session / нестандартные anchors | Не реализованы; только фиксированная UTC-сетка |
-| Полный Scenario Lab / expected R | Не реализованы; только проверка геометрии RR и исторический ambiguous classifier |
-| Windows native запуск | Скрипт подготовлен, нативная Windows-проверка не проведена |
+| Полный CSV import на Pages | Raw/normalize/QA/Worker research/IndexedDB; без Python и коммитов |
+| B0/B1 M15/H1/H4 в браузере | Реализованы, нет синтетического fallback |
+| Даты/параметры/запуск/отмена | Реальные операции; завершённые experiments сохраняются |
+| Диапазоны/coverage/score/paired bootstrap | Реализованы; source/params/snapshot закреплены |
+| TP/SL scenario | M1 replay с costs, time exit, ambiguity bounds и day-block CI |
+| Личный forward-журнал | Freshness/gaps/late gates; часы браузера не являются независимой публикацией |
+| Backup/restore | IndexedDB backup; прогнозы не заменяются |
+| Автозагрузка Dukascopy | Прямой коннектор; серверные проверки дали HTTP429. Успешный браузерный доступ пока не подтверждён |
+| Недельные часы Dukascopy | Из официального календаря, праздники отдельно |
+| Демо/Modules/Session-заглушки | Удалены из интерфейса |
+| 24/7 без вкладки/VPS | Нет; постоянный серверный feed не заявлен |
+| Trading expectancy / audited validation | Не доказаны; статусы не присваиваются |
 
-Автотесты проверяют: no future leakage; append-only predictions; timezone/DST; reference resampling для 15/60/240 минут на 960 M1; незакрытые свечи; missing bars; CSV replay; whole-candle interval; same-M1 TP/SL ambiguous; отсутствие автоалиасов; совпадение timestamps B0/B1; no promotion из DEMO/backtest; late forecast rejection; воспроизводимость run id/metrics; запрет unsupported probabilities и implicit public export.
+Тесты нового ядра: JSONP parsing без eval; exact symbols/no aliases; UTC/DST; partial bars; conflicting duplicates; reference aggregation; gaps; no future leakage; whole-candle coverage; paired timestamps; explicit-lead future issuance; stale/gapped rejection; append-only paper; source append без truncation; repeat-run immutability; same-M1 ambiguity; cost/time exit; short-page pagination; no fallback после HTTP429.
 
-Webhook acceptance (100 доставок), настоящий forward, график live-качества и broker execution не проходят приёмку в этой версии: соответствующих модулей ещё нет.
-
-Результаты исходной проверки: **25 Python tests passed**, **3 frontend tests passed**, `ruff check` и TypeScript/Vite build прошли локально и на GitHub. Публичный UI проверен в браузере: выбор XAUUSD/NAS100, переключение M15/H1, таблица B0/B1, журнал 120 симуляций, режим Сейчас с NO FORECAST. Актуальные результаты смотри в CI соответствующего commit.
+Текущий результат browser/CI смотри в соответствующем commit Actions. Source connectivity сохраняет фактический отказ поставщика.

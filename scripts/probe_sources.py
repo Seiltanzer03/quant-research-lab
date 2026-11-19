@@ -11,9 +11,15 @@ def main() -> None:
     failed = False
     for symbol in ["XAU/USD", "USATECH.IDX/USD"]:
         params = {
-            "path": "chart/json3", "splits": "true", "stocks": "true",
-            "time_direction": "N", "jsonp": "quantlab", "offer_side": "B",
-            "instrument": symbol, "interval": "1MIN", "limit": "60",
+            "path": "chart/json3",
+            "splits": "true",
+            "stocks": "true",
+            "time_direction": "N",
+            "jsonp": "quantlab",
+            "offer_side": "B",
+            "instrument": symbol,
+            "interval": "1MIN",
+            "limit": "60",
             "last_update": str(int((datetime.now(UTC) - timedelta(days=1)).timestamp() * 1000)),
         }
         url = "https://freeserv.dukascopy.com/2.0/index.php?" + urllib.parse.urlencode(params)
@@ -26,7 +32,18 @@ def main() -> None:
                 rows = json.loads(match.group(1))
                 if not rows or not all(len(row) >= 6 for row in rows):
                     raise ValueError("Missing OHLC rows")
-                print(json.dumps({"symbol": symbol, "status": "OK", "rows": len(rows), "last_open_utc": datetime.fromtimestamp(rows[-1][0] / 1000, UTC).isoformat(), "cors": response.headers.get("Access-Control-Allow-Origin")}), flush=True)
+                print(
+                    json.dumps(
+                        {
+                            "symbol": symbol,
+                            "status": "OK",
+                            "rows": len(rows),
+                            "last_open_utc": datetime.fromtimestamp(rows[-1][0] / 1000, UTC).isoformat(),
+                            "cors": response.headers.get("Access-Control-Allow-Origin"),
+                        }
+                    ),
+                    flush=True,
+                )
         except Exception as exc:
             failed = True
             print(json.dumps({"symbol": symbol, "status": "UNAVAILABLE", "error": str(exc)}), flush=True)

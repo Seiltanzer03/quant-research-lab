@@ -1,9 +1,6 @@
 name: Source connectivity
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ['scripts/probe_sources.py', '.github/workflows/sources.yml']
 permissions:
   contents: read
 jobs:

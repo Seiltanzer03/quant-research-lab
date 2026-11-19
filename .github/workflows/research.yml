@@ -1,12 +1,10 @@
-name: Research and Pages
+name: Build and Pages
 on:
   push:
     branches: [main]
-  schedule:
-    - cron: '17 */6 * * *'
   workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 concurrency:
@@ -31,12 +29,6 @@ jobs:
       - run: pip install -r requirements.lock && pip install --no-deps -e .
       - name: Check research contracts
         run: ruff check backend scripts && pytest -q
-      - name: Restore durable pilot state
-        run: python scripts/state.py restore
-      - name: Import and run fixed research protocol
-        run: python -m backend.app.cli build --data-dir state-store/state --inputs inputs --auto-demo --public
-      - name: Persist raw files, Parquet and append-only journals
-        run: python scripts/state.py save
       - uses: actions/setup-node@v7.1.0
         with:
           node-version: '24'
@@ -44,6 +36,8 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci && npm test && npm run build
         working-directory: frontend
+        env:
+          VITE_GIT_SHA: ${{ github.sha }}
       - uses: actions/configure-pages@v6.0.0
       - uses: actions/upload-pages-artifact@v5.0.0
         with:
@@ -51,11 +45,3 @@ jobs:
       - name: Deploy dashboard
         id: deployment
         uses: actions/deploy-pages@v5.0.1
-      - name: Research state recovery artifact
-        if: always()
-        uses: actions/upload-artifact@v7.0.2
-        with:
-          name: research-state-${{ github.run_id }}
-          path: state-store/state
-          retention-days: 14
-          if-no-files-found: ignore

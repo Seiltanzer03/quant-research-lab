@@ -2,6 +2,8 @@
 
 Проект: Quant Research Lab. Прочитай README.md, docs/ACCEPTANCE.md и docs/RESEARCH_PROTOCOL.md перед изменениями; полное исходное ТЗ — docs/SPEC_v1.md. GitHub-first адаптация и реально завершённые этапы описаны в README, не подразумевай выполнение всех будущих модулей.
 
+Публичная v0.2 — browser workspace (frontend/src/engine): CSV + Worker + IndexedDB, протокол docs/BROWSER_PROTOCOL_V2.md. Python v1 — дополнительный локальный инструмент. Реальные цены не копируются в public main/Pages. При отказе провайдера показывай реальную ошибку, без DEMO. До заявления успешного подключения проверь ответ источника и фактические даты/цены.
+
 - Сохраняй разделение DEMO, historical simulation и настоящих заранее выпущенных прогнозов. Не меняй issued_at/available_at задним числом.
 - Не допускай будущих данных в features/training/calibration. Не называй симуляции live/forward, диапазон — торговой вероятностью, а небольшой OOS — доказанным преимуществом.
 - Raw, dataset snapshots, forecast/outcome/experiment journals неизменяемы. Повторный импорт идемпотентен; конфликтующие свечи не исправляются молча.

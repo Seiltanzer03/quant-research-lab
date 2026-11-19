@@ -11,7 +11,7 @@ if (!(Test-Path 'frontend/node_modules')) {
     npm --prefix frontend ci
     if ($LASTEXITCODE -ne 0) { throw 'Node dependency installation failed' }
 }
-& .venv/Scripts/python.exe -m backend.app.cli build --auto-demo
+& .venv/Scripts/python.exe -m backend.app.cli build
 if ($LASTEXITCODE -ne 0) { throw 'Research build failed' }
 $LabApiProcess = Start-Process -FilePath '.venv/Scripts/python.exe' -ArgumentList '-m','uvicorn','backend.app.main:app','--host','127.0.0.1','--port','8000' -PassThru -NoNewWindow
 try {

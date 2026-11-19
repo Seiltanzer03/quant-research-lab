@@ -37,4 +37,5 @@ export type Dashboard = {
   schema_version: string; generated_at_utc: string; mode: string; git_sha: string;
   datasets: Dataset[]; limitations: string[]; operational_status: string;
   modules: { id: string; name: string; status: string }[];
+  research_settings?: { lookback: number; min_train: number; train_fraction: number; validation_fraction: number; bootstrap_repetitions: number };
 };
