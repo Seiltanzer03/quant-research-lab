@@ -12,9 +12,9 @@ import csv
 import gzip
 import hashlib
 import json
-from pathlib import Path
 import statistics
 import zipfile
+from pathlib import Path
 
 _REQUIRED = {
     "market_slug", "timestamp_utc", "yes_quote_time", "no_quote_time",
