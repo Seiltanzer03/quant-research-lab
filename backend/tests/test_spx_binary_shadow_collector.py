@@ -1,12 +1,18 @@
 """Tests are offline; no Yahoo network, sqlite or production imports."""
-from datetime import datetime, timezone
 import gzip
 import json
 import math
+from datetime import UTC, datetime
 
 from scripts.spx_binary_shadow_collector import (
-    exact_0dte_expiry, close_ts, quote_clock_status, diagnose_mid_curve,
-    assess_shadow, collect_once, persist_one, rows_from_yahoo,
+    assess_shadow,
+    close_ts,
+    collect_once,
+    diagnose_mid_curve,
+    exact_0dte_expiry,
+    persist_one,
+    quote_clock_status,
+    rows_from_yahoo,
 )
 
 
@@ -41,7 +47,7 @@ class Ticker:
 def clock_for(day, h=15, m=0):
     from zoneinfo import ZoneInfo
     d = datetime.fromisoformat(f"{day}T{h:02d}:{m:02d}:00")
-    return d.replace(tzinfo=ZoneInfo("America/New_York")).astimezone(timezone.utc)
+    return d.replace(tzinfo=ZoneInfo("America/New_York")).astimezone(UTC)
 
 
 def test_exact_expiry_does_not_select_wider_future_expiry():
@@ -87,7 +93,7 @@ def test_no_0dte_records_no_data_and_never_requests_far_expiry():
 
 def test_convexity_and_monotonicity_gates_reject_corrupt_curve():
     rows = [{"type": "call", "strike": k, "bid": c, "ask": c + 0.02}
-            for k, c in zip(range(97, 104), [4, 3.1, 2.4, 1.4, 0.95, 0.75, 0.65])]
+            for k, c in zip(range(97, 104), [4, 3.1, 2.4, 1.4, 0.95, 0.75, 0.65], strict=True)]
     assert diagnose_mid_curve(rows, 100)["status"] == "CALL_CONVEXITY_VIOLATION"
     rows[2]["bid"] = rows[2]["ask"] = 4.3
     assert diagnose_mid_curve(rows, 100)["status"] == "CALL_MONOTONICITY_OR_VERTICAL_ARBITRAGE"
@@ -123,7 +129,7 @@ def test_atomic_snapshot_and_post_write_availability(tmp_path):
     now = clock_for("2026-11-20")
     row = collect_once(Ticker(["2026-11-20"]), clock=lambda: now)
     dest, manifest = persist_one(tmp_path / "shadow", row,
-        clock=lambda: datetime.fromtimestamp(now.timestamp()+1, timezone.utc))
+        clock=lambda: datetime.fromtimestamp(now.timestamp()+1, UTC))
     assert dest.exists()
     assert manifest["persisted_available_at_ts"] >= row["received_at_ts"]
     assert manifest["strict_asof"] is False
@@ -134,8 +140,8 @@ def test_atomic_snapshot_and_post_write_availability(tmp_path):
 def test_dst_correct_expiry_close():
     winter = close_ts("2026-11-20")
     summer = close_ts("2026-10-23")
-    assert datetime.fromtimestamp(winter, timezone.utc).hour == 21
-    assert datetime.fromtimestamp(summer, timezone.utc).hour == 20
+    assert datetime.fromtimestamp(winter, UTC).hour == 21
+    assert datetime.fromtimestamp(summer, UTC).hour == 20
 
 
 def test_strict_needs_independent_spot_forward_and_calendar_clocks():
