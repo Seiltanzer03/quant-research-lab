@@ -16,7 +16,6 @@ import math
 import random
 import statistics
 import zipfile
-from datetime import datetime
 from pathlib import Path
 
 from scripts.polymarket_spx_parity_audit import input_rows
