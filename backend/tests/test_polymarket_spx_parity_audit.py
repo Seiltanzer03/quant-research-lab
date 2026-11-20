@@ -41,7 +41,7 @@ def test_theoretical_discount_never_claims_fill():
 
 
 def test_stale_or_future_quote_fails_closed():
-    r = audit([pair(yes_quote_time="1000000")])
+    r = audit([pair(yes_quote_time="-30000000")])
     assert r["well_formed_pairs"] == 1
     assert r["eligible_contemporaneous_pairs"] == 0
     assert r["exclusion_counts"]["stale_or_future_quote"] == 1
