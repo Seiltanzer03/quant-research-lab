@@ -5,9 +5,12 @@ from zoneinfo import ZoneInfo
 import pytest
 
 from scripts.polymarket_spx_resolution_baselines import (
-    block_ci, choose_fixed_snapshots, eligible_record, evaluate, market_day,
+    block_ci,
+    choose_fixed_snapshots,
+    eligible_record,
+    evaluate,
+    market_day,
 )
-
 
 NY = ZoneInfo("America/New_York")
 
