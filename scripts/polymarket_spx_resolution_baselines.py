@@ -10,11 +10,11 @@ from __future__ import annotations
 
 import argparse
 import csv
-from datetime import datetime, timezone
 import hashlib
 import json
 import random
 import statistics
+from datetime import UTC, datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -72,7 +72,7 @@ def eligible_record(row):
         return None
     if max(ya - yb, na - nb) > 0.05 + 1e-12:
         return None
-    dt_local = datetime.fromtimestamp(now / 1e6, timezone.utc).astimezone(NY)
+    dt_local = datetime.fromtimestamp(now / 1e6, UTC).astimezone(NY)
     if dt_local.hour != 14 or not (1 <= dt_local.minute <= 5):
         return None
     if market_day(row["market_slug"]) != dt_local.date().isoformat():
