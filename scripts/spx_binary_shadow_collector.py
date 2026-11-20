@@ -8,15 +8,16 @@ is emitted. The quote verifier below also supports future timestamped feeds.
 from __future__ import annotations
 
 import argparse
-from datetime import date, datetime, time as clock_time, timezone
 import gzip
 import hashlib
 import json
 import math
 import os
-from pathlib import Path
 import tempfile
 import time
+from datetime import UTC, date, datetime
+from datetime import time as clock_time
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 NY = ZoneInfo("America/New_York")
@@ -25,7 +26,7 @@ RESEARCH_FORWARD_TOLERANCE = 0.02
 
 
 def utc_now():
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def exchange_date(now):
@@ -61,7 +62,7 @@ def _utc_string(value):
     if isinstance(value, datetime):
         if value.tzinfo is None:
             return None
-        return value.astimezone(timezone.utc).isoformat()
+        return value.astimezone(UTC).isoformat()
     if hasattr(value, "to_pydatetime"):
         return _utc_string(value.to_pydatetime())
     return None
