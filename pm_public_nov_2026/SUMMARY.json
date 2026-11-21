@@ -1,0 +1,268 @@
+{
+  "markets_found": 13,
+  "price_history_rows": 6362,
+  "dates": 13,
+  "status": [
+    {
+      "date": "2026-11-04",
+      "slug": "spx-up-or-down-on-november-4-2026",
+      "outcome": "UP",
+      "result": "OK",
+      "points": 97,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-04",
+      "slug": "spx-up-or-down-on-november-4-2026",
+      "outcome": "DOWN",
+      "result": "OK",
+      "points": 97,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-05",
+      "slug": "spx-up-or-down-on-november-5-2026",
+      "outcome": "UP",
+      "result": "OK",
+      "points": 97,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-05",
+      "slug": "spx-up-or-down-on-november-5-2026",
+      "outcome": "DOWN",
+      "result": "OK",
+      "points": 97,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-06",
+      "slug": "spx-up-or-down-on-november-6-2026",
+      "outcome": "UP",
+      "result": "OK",
+      "points": 97,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-06",
+      "slug": "spx-up-or-down-on-november-6-2026",
+      "outcome": "DOWN",
+      "result": "OK",
+      "points": 97,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-09",
+      "slug": "spx-up-or-down-on-november-9-2026",
+      "outcome": "UP",
+      "result": "OK",
+      "points": 97,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-09",
+      "slug": "spx-up-or-down-on-november-9-2026",
+      "outcome": "DOWN",
+      "result": "OK",
+      "points": 97,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-10",
+      "slug": "spx-up-or-down-on-november-10-2026",
+      "outcome": "UP",
+      "result": "OK",
+      "points": 97,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-10",
+      "slug": "spx-up-or-down-on-november-10-2026",
+      "outcome": "DOWN",
+      "result": "OK",
+      "points": 97,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-11",
+      "slug": "spx-up-or-down-on-november-11-2026",
+      "outcome": "UP",
+      "result": "OK",
+      "points": 97,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-11",
+      "slug": "spx-up-or-down-on-november-11-2026",
+      "outcome": "DOWN",
+      "result": "OK",
+      "points": 97,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-12",
+      "slug": "spx-up-or-down-on-november-12-2026",
+      "outcome": "UP",
+      "result": "OK",
+      "points": 98,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-12",
+      "slug": "spx-up-or-down-on-november-12-2026",
+      "outcome": "DOWN",
+      "result": "OK",
+      "points": 98,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-13",
+      "slug": "spx-up-or-down-on-november-13-2026",
+      "outcome": "UP",
+      "result": "OK",
+      "points": 98,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-13",
+      "slug": "spx-up-or-down-on-november-13-2026",
+      "outcome": "DOWN",
+      "result": "OK",
+      "points": 98,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-16",
+      "slug": "spx-up-or-down-on-november-16-2026",
+      "outcome": "UP",
+      "result": "OK",
+      "points": 481,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-16",
+      "slug": "spx-up-or-down-on-november-16-2026",
+      "outcome": "DOWN",
+      "result": "OK",
+      "points": 481,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-17",
+      "slug": "spx-up-or-down-on-november-17-2026",
+      "outcome": "UP",
+      "result": "OK",
+      "points": 482,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-17",
+      "slug": "spx-up-or-down-on-november-17-2026",
+      "outcome": "DOWN",
+      "result": "OK",
+      "points": 482,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-18",
+      "slug": "spx-up-or-down-on-november-18-2026",
+      "outcome": "UP",
+      "result": "OK",
+      "points": 479,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-18",
+      "slug": "spx-up-or-down-on-november-18-2026",
+      "outcome": "DOWN",
+      "result": "OK",
+      "points": 479,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-19",
+      "slug": "spx-up-or-down-on-november-19-2026",
+      "outcome": "UP",
+      "result": "OK",
+      "points": 481,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-19",
+      "slug": "spx-up-or-down-on-november-19-2026",
+      "outcome": "DOWN",
+      "result": "OK",
+      "points": 481,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-20",
+      "slug": "spx-up-or-down-on-november-20-2026",
+      "outcome": "UP",
+      "result": "OK",
+      "points": 480,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    },
+    {
+      "date": "2026-11-20",
+      "slug": "spx-up-or-down-on-november-20-2026",
+      "outcome": "DOWN",
+      "result": "OK",
+      "points": 480,
+      "method": "DataAPI_v2",
+      "http_status": 200,
+      "details": ""
+    }
+  ],
+  "disclaimer": "No historical Bid/Ask. Price history is NOT an executable price or validated implied probability."
+}
