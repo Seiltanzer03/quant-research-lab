@@ -16,7 +16,7 @@ from zipfile import ZipFile
 import numpy as np
 import pandas as pd
 
-from scripts.polymarket_spx_option_combinations import _fit, logit
+from scripts.polymarket_spx_option_combinations import _fit
 
 FEATURES = ("skew_rr", "atm_iv", "term_slope")
 L2 = 8
