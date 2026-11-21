@@ -1,0 +1,30 @@
+name: Research-only download of public Polymarket SPX preopen history
+on:
+  push:
+    branches:
+      - research/preopen-polymarket-20261121
+    paths:
+      - scripts/download_public_preopen_polymarket_spx_2026.py
+      - .github/workflows/research-pm-spx-preopen-2026.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download historical public data without secrets
+        run: python -u scripts/download_public_preopen_polymarket_spx_2026.py
+      - name: Upload raw public prices and coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-spx-polymarket-2026-preopen
+          path: pm_spx_2026_preopen_public/
+          retention-days: 30
+          if-no-files-found: warn
