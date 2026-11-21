@@ -39,7 +39,7 @@ def extract_november(options_zip: Path) -> pd.DataFrame:
     )
     if df[list(FEATURES)].isna().any().any():
         raise ValueError("Missing ATM IV / RR / term slope")
-    if (df.option_quote_time_verified == True).sum():
+    if df.option_quote_time_verified.fillna(False).any():
         raise ValueError("This audit expects UNVERIFIED option source timestamps")
     return df.reset_index(drop=True)
 
