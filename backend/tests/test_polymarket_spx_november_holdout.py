@@ -40,7 +40,7 @@ def test_cannot_fit_with_dates_after_original_training_end():
     prior.loc[19, "date"] = "2026-11-19"
     try:
         fit_frozen(prior, (0, 1, 2))
-        assert False, "Expected a temporal leakage guard"
+        raise AssertionError("Expected a temporal leakage guard")
     except ValueError:
         pass
 
