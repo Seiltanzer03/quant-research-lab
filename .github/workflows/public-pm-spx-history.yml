@@ -1,0 +1,36 @@
+name: Recover public Polymarket SPX November price history
+on:
+  push:
+    branches: [research/download-public-pm-spx-nov-20261121]
+    paths:
+      - scripts/download_public_polymarket_spx_nov2026.py
+      - .github/workflows/public-pm-spx-history.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch-price-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download official PUBLIC Polymarket history
+        run: python scripts/download_public_polymarket_spx_nov2026.py
+      - name: Upload raw observations and provenance
+        uses: actions/upload-artifact@v4
+        with:
+          name: spx-polymarket-nov-2026-public-prices
+          path: pm_public_nov_2026/
+          retention-days: 20
+      - name: Commit compact results to this research branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pm_public_nov_2026/SUMMARY.json pm_public_nov_2026/market_metadata.json pm_public_nov_2026/download_status.csv pm_public_nov_2026/sampled_price_history_4times.csv
+          if ! git diff --cached --quiet; then
+            git commit -m "data: November 2026 public SPX market price history summary [skip ci]"
+            git push
+          fi
